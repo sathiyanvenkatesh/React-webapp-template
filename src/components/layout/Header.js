@@ -2,70 +2,114 @@ import React, { Component } from "react";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 
-//import styled from  'styled-components';
 
-/*const Styles = styled.div`
-.navbar{
-    background-color: red;   
-}
-.navbar-brand,.navbar-nav .nav-link{
-    color: black;
-    &:hover{
-        color : white;
-    }
-}
-`;*/
 
 const navitems = [
   {link: '/', title: 'Home',isdropdown:'N'},
   {link: '/formexample', title: 'FormExample',isdropdown:'N'},
-  {link:'#',title:'DropdownExampleTest',isdropdown:'Y',menuItems: [
+  {link:'#',title:'FormComponentExamle',isdropdown:'Y',menuItems: [
     {
-      title: 'Sub Menu 1',
-      link:'/subMenuitemaction1',
+      title: 'FormLink',
+      link:'/formLink',
       isdropdown:'N'
 
     },
     {
-      title: 'Sub Menu 2',
-      link:'/submenuiteamaction2',
+      title: 'SimpleForm',
+      link:'/formexample',
+      isdropdown:'N'
+
+    },
+    {
+      title: 'RegistrationFormUsingFormLink',
+      link:'/registrationFormlnk',
       isdropdown:'N'
 
     }
   ]},
-  {link:'#',title:'DropdownExampleTest1',isdropdown:'Y',menuItems: [
+  {link:'#',title:'DataTableComponentExample',isdropdown:'Y',menuItems: [
+    {
+      title: 'BasicDatatable',
+      link:'/basicDataTable',
+      isdropdown:'N'
+
+    },
+    {
+      title: 'AdvancedDataTable',
+      link:'/advancedDataTable',
+      isdropdown:'N'
+
+    }
+  ]},
+ /* {link:'#',title:'DropDownSubMenu',isdropdown:'Y',issubmenu:'Y',menuItems: [
     {
       title: 'Sub Menu test1',
-      link:'/subMenuitemactiontest1',
-      isdropdown:'N'
+      link:'/subMenuitemactiontest1',  
+      isdropdown:'Y'  ,  
+      menuItems:[{
+        title:'submenu1',
+        link:'/submenu1'
+      }
+      ]
 
     },
     {
       title: 'Sub Menu test 2',
       link:'/submenuiteamactiontest2',
-      isdropdown:'N'
+      isdropdown:'Y',
+      menuItems:[{
+        title:'submenu2',
+        link:'/submenu2'
+      }
+      ]
+
+
 
     }
-  ]},
-  {link:'#',title:'DropDownSubMenu',isdropdown:'Y',issubmenu:'Y',menuItems: [
+  ]},*/
+  {link: '/recipes', title: 'API Call example',isdropdown:'N'},
+
+  {link: '/menu', title: 'Nested Menu',isdropdown:'N'},
+  {link:'#',title:'SVC Module',isdropdown:'Y',menuItems: [
     {
-      title: 'Sub Menu test1',
-      link:'/subMenuitemactiontest1',
+      title: 'Serarch SVC',
+      link:'/svcsearch',
       isdropdown:'N'
 
     },
     {
-      title: 'Sub Menu test 2',
-      link:'/submenuiteamactiontest2',
+      title: 'Create New SVC',
+      link:'/createsvc',
+      isdropdown:'N'
+
+    },
+    {
+      title: 'Update SVC',
+      link:'/updatesvc',
       isdropdown:'N'
 
     }
-  ]}
-  
+  ]},
 ];
 
+
+
 class Header extends Component {
+  
+  constructor(props){
+    super(props);
+    this.getNavDropdownItem=this.getNavDropdownItem.bind(this);
+   }
+
+   getNavDropdownItem=(navemenuitem)=>{
+    console.log(navemenuitem);
+    
+  return null;
+  
+  }
+
   render() {
+    
     return (
       <div>
         <Navbar
@@ -87,12 +131,14 @@ class Header extends Component {
              }) }  
             {navitems.map(function(menuItem, i) {
             if (menuItem.menuItems !== undefined && menuItem.issubmenu === undefined) {
+              
                 return (                  
                     <NavDropdown title={menuItem.title} id="basic-nav-dropdown" key={i} >
                     {menuItem.menuItems.map((subitem,j)=>{
-                      
+                     
                       return   <NavDropdown.Item href={subitem.link} key={j} className="bg-danger text-light">{subitem.title}</NavDropdown.Item>
                      })}
+                     
                     </NavDropdown> 
                 );
             } else {
@@ -101,26 +147,46 @@ class Header extends Component {
         })}
 
 {navitems.map(function(menuItem, i) {
-            if (menuItem.menuItems !== undefined && menuItem.issubmenu !== undefined) {
+ // console.log(menuItem)
+            if (menuItem.menuItems !== undefined && menuItem.issubmenu === 'Y' && menuItem.isdropdown ==='Y') {
+                var submenuList=[];
                 return (                  
-                  <NavDropdownMenu    title={menuItem.title}  id="collasible-nav-dropdown"  alignRight key={i}  >
-                   { menuItem.menuItems.map((mitem,i)=>{                     
-                    return  <> <NavDropdown.Item href="/action/3.1">Action</NavDropdown.Item>
-                    <DropdownSubmenu href="/action/3.7" title="Text to show">
-                      <NavDropdown.Item href="/action/8.1">Sub 1</NavDropdown.Item>
-                      <DropdownSubmenu href="/action/3.7" title="Text to show">
-                        <NavDropdown.Item href="/action/9.1">
-                          Sub 2
-                        </NavDropdown.Item>
-                      </DropdownSubmenu>
-                    </DropdownSubmenu></>
-                    })}
+                  <NavDropdownMenu    title={menuItem.title}  id="collasible-nav-dropdown"  alignRight key={i}  >{/* root lablee */}
+                   { menuItem.menuItems.map(function(mitem,i){  
+                     console.log(mitem);
+                      mitem.menuItems.map(function(item,i){
+                        console.log("data"+JSON.stringify(item));
+                         submenuList.push(item);
+                         console.log(submenuList);  
+                          if(submenuList.length >0){  
+                            console.log("inside !=undefined")                
+                    return <DropdownSubmenu href={mitem.link} key={i}>{mitem.title}                                                               
+                               <NavDropdown.Item href="/action/9.1" key ={i}>   Sub 2  </NavDropdown.Item>                              
+                               </DropdownSubmenu>
+                               
+                            
+                            
+                                       
+                  }
+                  else{
+                    return(
+                      <NavDropdown.Item href={mitem.link} key={i}>{mitem.title}</NavDropdown.Item>   
+                      ); 
+                    
+                  }
+                })
+               
+               
+                   //"";//this.getNavDropdownItem(mitem);
+                   return ""; //<NavDropdown.Item href={mitem.link} key={i}>{mitem.title}</NavDropdown.Item>
+                    } )}
                     </NavDropdownMenu>
                 
   
                 );
             } else {
                 return undefined;
+                
             }
         })}
 
@@ -134,7 +200,7 @@ class Header extends Component {
 
 
 
-
+{/*
               <NavDropdownMenu
                 title="Nested Dropdown RIght"
                 id="collasible-nav-dropdown"
@@ -164,7 +230,7 @@ class Header extends Component {
                     </NavDropdown.Item>
                   </DropdownSubmenu>
                 </DropdownSubmenu>
-              </NavDropdownMenu>
+               </NavDropdownMenu> */}
             </Nav>
           </Navbar.Collapse>
         </Navbar>

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Button,Modal } from 'react-bootstrap'
+import {withRouter} from 'react-router-dom';
 
 
  class AuthHistory extends Component {
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             showHide : false
         }
@@ -13,28 +14,31 @@ import { Button,Modal } from 'react-bootstrap'
 
     handleModalShowHide() {
         this.setState({ showHide: !this.state.showHide })
+        //this.props.history.push('/');
+
+    }
+    componentDidMount(){
+        this.handleModalShowHide();// on load click
     }
 
 
     render() {
         return (
             <div>
-                <Button variant="primary" onClick={() => this.handleModalShowHide()}>
-                    Launch demo modal
-                </Button>
+                
 
                 <Modal show={this.state.showHide}>
-                    <Modal.Header closeButton onClick={() => this.handleModalShowHide()}>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Header closeButton onClick={() => this.handleModalShowHide()} className="bg-danger">
+                    <Modal.Title>Login History</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
                     <Modal.Footer>
-                    <Button variant="secondary" onClick={() => this.handleModalShowHide()}>
+                    <Button variant="danger" onClick={() => this.handleModalShowHide()}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => this.handleModalShowHide()}>
+                    {/*<Button variant="danger" onClick={() => this.handleModalShowHide()}>
                         Save Changes
-                    </Button>
+                      </Button>*/}
                     </Modal.Footer>
                 </Modal>
 
@@ -42,4 +46,4 @@ import { Button,Modal } from 'react-bootstrap'
         )
     }
 }
-export default AuthHistory;
+export default withRouter(AuthHistory);

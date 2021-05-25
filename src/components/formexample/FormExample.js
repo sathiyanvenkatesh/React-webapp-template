@@ -92,7 +92,7 @@ class FormExample extends Component {
           <div className="form-group">
           <textarea name="message" type="text" className="form-control" placeholder="Message" value={this.state.message} onChange={this.handleChange} onBlur={this.handleBlur} required="required" />
         </div>
-          <p className="text-center mb-0"><input type="submit" className="btn btn-primary " value="Submit Now" /></p>
+          <p className="text-center mb-0"><input type="submit" className="btn btn-danger " value="Submit Now" /></p>
       </form>
       
     </div>
@@ -100,12 +100,12 @@ class FormExample extends Component {
   </Container>   
       );
         }  
-      
+        
        if(this.state.thankyou) {
          return (
            <Container>
            <div className="thankyou_details">
-             <div class="text-success">Thank for your message. We will contact you soon.</div>
+             <div className="text-success">Thank for your message. We will contact you soon.</div>
               <ul className="list-group">
                 <li className="list-group-item">Name: {this.state.name}</li>
                 <li className="list-group-item">Mobile: {this.state.mobile}</li>
